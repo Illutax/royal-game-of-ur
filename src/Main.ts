@@ -13,13 +13,14 @@ export class Main {
         const roll = document.getElementById('roll') as HTMLButtonElement;
         this.canvas = document.getElementById("canvas") as HTMLCanvasElement;
         this.resultSpan = document.getElementById("result") as HTMLSpanElement;
+        this.allResults = document.getElementById("allResults") as HTMLDivElement;
         this.canvas.tabIndex = 0; // make canvas focus-able
         this.gameState = new GameState();
+        this.rollBtn = roll;
         this.render();
         roll.onclick = () => {
             this.roll();
         };
-        this.rollBtn = roll;
     }
 
     roll() {
@@ -62,19 +63,45 @@ export class Main {
     private drawTriangle(ctx: CanvasRenderingContext2D, number: number, size: Vec2, rollResult: RollResult | null = null) {
         const xOffset = Vec2.of(125, 0).mult(number);
         const offset = Vec2.of(125, 50).plus(xOffset);
-
-        if (rollResult == null) {
-            ctx.fillStyle = "#CCC";
-        } else {
-            let tetraeder = rollResult.get(number);
-            ctx.fillStyle = tetraeder.value === 1 ? "#0F0" : "#F00";
-        }
+        ctx.fillStyle = "#CCC";
 
         ctx.beginPath();
         ctx.moveTo(offset.x, offset.y - size.y / 2);
         ctx.lineTo(offset.x + size.x / 2, offset.y + size.y / 2);
         ctx.lineTo(offset.x - size.x / 2, offset.y + size.y / 2);
         ctx.fill();
+
+        if (rollResult != null) {
+            const tetraeder = rollResult.get(number);
+
+            // up
+            if (tetraeder === Tetraeder.i1 || tetraeder === Tetraeder.i2) {
+                ctx.fillStyle = "#F00";
+                ctx.beginPath();
+                ctx.moveTo(offset.x, offset.y - size.y / 2);
+                ctx.lineTo(offset.x + 15, offset.y - size.y / 2+15);
+                ctx.lineTo(offset.x - 15, offset.y - size.y / 2+15);
+                ctx.fill();
+            }
+            // right
+            if (tetraeder === Tetraeder.i2 || tetraeder === Tetraeder.i3) {
+                ctx.fillStyle = "#F00";
+                ctx.beginPath();
+                ctx.lineTo(offset.x + size.x / 2 - 15, offset.y + size.y / 2 - 15);
+                ctx.lineTo(offset.x + size.x / 2, offset.y + size.y / 2);
+                ctx.lineTo(offset.x + size.x / 2 - 22, offset.y + size.y / 2);
+                ctx.fill();
+            }
+            // left
+            if (tetraeder === Tetraeder.i3 || tetraeder === Tetraeder.i4) {
+                ctx.fillStyle = "#F00";
+                ctx.beginPath();
+                ctx.lineTo(offset.x - size.x / 2 + 15, offset.y + size.y / 2 - 15);
+                ctx.lineTo(offset.x - size.x / 2, offset.y + size.y / 2);
+                ctx.lineTo(offset.x - size.x / 2 + 22, offset.y + size.y / 2);
+                ctx.fill();
+            }
+        }
     }
 }
 
