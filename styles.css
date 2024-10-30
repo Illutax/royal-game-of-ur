@@ -1,0 +1,10 @@
+.buttons {
+    display: flex;
+    width: 500px;
+    justify-content: center;
+    align-items: center;
+}
+
+#roll {
+    padding: 0.5rem 3rem;
+}
