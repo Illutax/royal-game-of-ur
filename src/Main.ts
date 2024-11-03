@@ -8,6 +8,7 @@ export class Main {
     private canvas: HTMLCanvasElement;
     private rollBtn: HTMLButtonElement;
     private resultSpan: HTMLSpanElement;
+    private allResults: HTMLDivElement;
 
     constructor() {
         const roll = document.getElementById('roll') as HTMLButtonElement;
@@ -29,6 +30,7 @@ export class Main {
         }
         this.rollBtn.disabled = true;
         this.gameState.rolling = true;
+        this.addLastResult();
         this.gameState.resetCurrentResult();
         this.render();
         setTimeout(() => this.reset(), 500);
@@ -42,6 +44,15 @@ export class Main {
         this.render();
         this.rollBtn.disabled = false;
         this.gameState.rolling = false;
+    }
+
+    addLastResult() {
+        if (this.gameState.currentResult == null) return;
+
+        const nextResult = document.createElement('li');
+        nextResult.classList.add(this.gameState.odd ? "odd" : "even")
+        nextResult.innerText = `${this.gameState.currentResult?.getPoints() ?? ""}`;
+        this.allResults.prepend(nextResult);
     }
 
     getRandomTetraeder() {
@@ -79,8 +90,8 @@ export class Main {
                 ctx.fillStyle = "#F00";
                 ctx.beginPath();
                 ctx.moveTo(offset.x, offset.y - size.y / 2);
-                ctx.lineTo(offset.x + 15, offset.y - size.y / 2+15);
-                ctx.lineTo(offset.x - 15, offset.y - size.y / 2+15);
+                ctx.lineTo(offset.x + 15, offset.y - size.y / 2 + 15);
+                ctx.lineTo(offset.x - 15, offset.y - size.y / 2 + 15);
                 ctx.fill();
             }
             // right

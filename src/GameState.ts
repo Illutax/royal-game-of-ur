@@ -13,6 +13,10 @@ export class GameState {
         return this._rolling;
     }
 
+    get odd(): boolean {
+        return this.results.length % 2 == 1;
+    }
+
     set rolling(value: boolean) {
         this._rolling = value;
     }
