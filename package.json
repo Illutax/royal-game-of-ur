@@ -2,7 +2,8 @@
   "scripts": {
     "watch": "npx tsc --watch",
     "build": "npx tsc",
-    "start": "concurrently --kill-others \"npx http-server\" \"npm run watch\""
+    "start": "concurrently --kill-others \"npx http-server\" \"npm run watch\"",
+    "copy": "mkdir dist && cp ./index.html ./dist/index.html && cp ./styles.css ./dist/styles.css && cp -r ./out ./dist/"
   },
   "devDependencies": {
     "typescript": "latest",
